@@ -110,3 +110,7 @@ class LinearProbing:
             if key is None:
                 empty = empty + 1
         return empty
+
+
+    for row in movies
+        key = movies[column]
