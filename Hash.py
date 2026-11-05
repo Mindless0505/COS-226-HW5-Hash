@@ -10,6 +10,12 @@ with open("MOCK_DATA.csv", newline="", encoding="utf-8") as file:
         movies.append(row)
 
 
+#poor hash function
+def hash_function(key):
+    return len(key) * 256
+
+
+
 class Node:
     def __init__(self, key, record):
         self.key = key #title or quote
@@ -23,9 +29,8 @@ class LinkedList:
         self.collisions = 0
 
     def insert(self, key, record):
-        # updated with hash function code
+        # set index as the remander of the hash key by the table size
         index = hash_function(key) % self.size 
-        #
 
         #empty slot with no collisions put node in
         if self.slots[index] is None:
@@ -45,9 +50,8 @@ class LinkedList:
 
     #function for getting movie from key
     def get(self, key):
-        ###
+        # set index as the remander of the hash key by the table size
         index = hash_function(key) % self.size
-        ###
         node = self.slots[index]
         #scans the list one by one to find desired movie from key
         while node is not None:
@@ -68,14 +72,15 @@ class LinkedList:
 class LinearProbing:
     def __init__(self,size):
         self.size = size
+        #set all to empty
         self.keys = [None] * size
         self.records = [None] * size
         self.collisions = 0
 
     def insert(self, key, record):
-        ##
+        # set index as the remander of the hash key by the table size
         index = hash_function(key) % self.size
-        ##
+        
 
         #while the slot being looked at is full, count as collision
         while self.keys[index] is not None:
@@ -89,9 +94,9 @@ class LinearProbing:
 
     #function for getting movie from key
     def get(self,key):
-        ##
+        # set index as the remander of the hash key by the table size
         index = hash_function(key) % self.size
-        ##
+        
         while self.keys[index] is not None: #keep scanning keys if keys remain
             if self.keys[index] == key:
                 return self.records[index] #if key is found return movie 
