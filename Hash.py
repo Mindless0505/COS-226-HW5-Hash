@@ -6,20 +6,22 @@
 #it then prints the empty slots in the table, the collisons while inserting into the table and the build time
 #for each table.
 #
-#Attempt 4: Good hash function with a Linked List
+#Attempt 5: Best hash function with a Linked List
 #Hash function: The hash function creates a key that uses the character code value and position of the letters
 #in the movie title or quote. This attempts to evenly distribute the keys across the entire table making 
 #them as unique as possible. Hopefully reducing the number of collisons greatly and empty slots. 
+#The hash function was then modified to reduce the size of the key so it doesnt get gigantic
+#A Linked List was also chosen over the Linear Probing as it seemed to perform better with the current hash function setup
 #
 #Results:
-# (movie_title) Good hash function - Linked List
-# Wasted Space:  7624 slots
-# Collisions:  10572
-# Time Taken: 0:00:00.028500
-# (quote) Good hash function - Linked List
-# Wasted Space:  6339 slots
-# Collisions:  9793
-# Time Taken: 0:00:00.313999
+# (movie_title) Best hash function - Linked List
+# Wasted Space:  7565 slots
+# Collisions:  10382
+# Time Taken: 0:00:00.040000
+# (quote) Best hash function - Linked List
+# Wasted Space:  6701 slots
+# Collisions:  11521
+# Time Taken: 0:00:00.067500
 
 
 import time
@@ -38,10 +40,12 @@ with open("MOCK_DATA.csv", newline="", encoding="utf-8") as file:
 #good hash function - multiplies the total by 26 then adds the letters character code.
 #the 26 makes the total dependent on the characters position so there are less duplicates if 
 #two movie titles contain the same letters.
+#A remander operation is added to keep the total from getting too large
 def hash_function(key):
     total = 0
     for character in key:
         total = total * 26 + ord(character)
+        total = total % (2 ** 32) 
     return total
 
 
@@ -160,7 +164,7 @@ for column in ["movie_title", "quote"]:
     empty = table.count_empty()
     percent = round(empty / table_size *100, 1)
 
-    print(f"({column})","Good hash function - Linked List")
+    print(f"({column})","Best hash function - Linked List")
     print("Wasted Space: ", empty, "slots")
     print("Collisions: ", table.collisions)
     print(f"Time Taken: {end-start}")
