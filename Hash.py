@@ -6,21 +6,20 @@
 #it then prints the empty slots in the table, the collisons while inserting into the table and the build time
 #for each table.
 #
-#Attempt 3: Good hash function with a Linear Probing
+#Attempt 4: Good hash function with a Linked List
 #Hash function: The hash function creates a key that uses the character code value and position of the letters
 #in the movie title or quote. This attempts to evenly distribute the keys across the entire table making 
-#them as unique as possible. Hopefully reducing the number of collisons greatly. 
+#them as unique as possible. Hopefully reducing the number of collisons greatly and empty slots. 
 #
 #Results:
-# (movie_title) Good hash function - LinearProbing
-# Wasted Space:  3691 slots
-# Collisions:  26230
-# Time Taken: 0:00:00.027501
-# (quote) Good hash function - LinearProbing
-# Wasted Space:  109 slots
-# Collisions:  772246
-# Time Taken: 0:00:00.816503
-
+# (movie_title) Good hash function - Linked List
+# Wasted Space:  7624 slots
+# Collisions:  10572
+# Time Taken: 0:00:00.028500
+# (quote) Good hash function - Linked List
+# Wasted Space:  6339 slots
+# Collisions:  9793
+# Time Taken: 0:00:00.313999
 
 
 import time
@@ -145,7 +144,7 @@ class LinearProbing:
 for column in ["movie_title", "quote"]:
     table_size = int(len(movies))
 
-    table = LinearProbing(table_size) #create hash table
+    table = LinkedList(table_size) #create hash table
 
     start = datetime.now()
     for row in movies:
@@ -161,7 +160,7 @@ for column in ["movie_title", "quote"]:
     empty = table.count_empty()
     percent = round(empty / table_size *100, 1)
 
-    print(f"({column})","Good hash function - LinearProbing")
+    print(f"({column})","Good hash function - Linked List")
     print("Wasted Space: ", empty, "slots")
     print("Collisions: ", table.collisions)
     print(f"Time Taken: {end-start}")
