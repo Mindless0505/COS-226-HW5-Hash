@@ -6,21 +6,20 @@
 #it then prints the empty slots in the table, the collisons while inserting into the table and the build time
 #for each table.
 #
-#Attempt 1: Poor hash function with a Linked List
+#Attempt 2: Poor hash function with a Linear Probing
 #Hash function: The hash function returns a value of 0 regardless of input.
-#This makes it so every single key is identical. Thus all the entries are in the same spot on the table
-#This should create a significant amount of collisons with a lot of wasted space
+#This makes it so every single key is identical. Thus all entries have to pass every previous entry to get added.
+#This should create a very significant amount of collisons.
 #
 #Results:
-#(movie_title) Poor hash function - Linked List
-#Wasted Space:  14999 slots
-#Collisions:  78340596
-#Time Taken: 0:00:03.813998
-#
-#(quote) Poor hash function - Linked List
-#Wasted Space:  14999 slots
-#Collisions:  111409320
-#Time Taken: 0:00:04.938001
+# (movie_title) Poor hash function - LinearProbing
+# Wasted Space:  3691 slots
+# Collisions:  78340596
+# Time Taken: 0:00:06.578001
+# (quote) Poor hash function - LinearProbing
+# Wasted Space:  109 slots
+# Collisions:  111409320
+# Time Taken: 0:00:08.847002
 
 
 
@@ -142,7 +141,7 @@ class LinearProbing:
 for column in ["movie_title", "quote"]:
     table_size = int(len(movies))
 
-    table = LinkedList(table_size) #create hash table
+    table = LinearProbing(table_size) #create hash table
 
     start = datetime.now()
     for row in movies:
@@ -158,7 +157,7 @@ for column in ["movie_title", "quote"]:
     empty = table.count_empty()
     percent = round(empty / table_size *100, 1)
 
-    print(f"({column})","Poor hash function - Linked List")
+    print(f"({column})","Poor hash function - LinearProbing")
     print("Wasted Space: ", empty, "slots")
     print("Collisions: ", table.collisions)
     print(f"Time Taken: {end-start}")
