@@ -6,20 +6,20 @@
 #it then prints the empty slots in the table, the collisons while inserting into the table and the build time
 #for each table.
 #
-#Attempt 2: Poor hash function with a Linear Probing
-#Hash function: The hash function returns a value of 0 regardless of input.
-#This makes it so every single key is identical. Thus all entries have to pass every previous entry to get added.
-#This should create a very significant amount of collisons.
+#Attempt 3: Good hash function with a Linear Probing
+#Hash function: The hash function creates a key that uses the character code value and position of the letters
+#in the movie title or quote. This attempts to evenly distribute the keys across the entire table making 
+#them as unique as possible. Hopefully reducing the number of collisons greatly. 
 #
 #Results:
-# (movie_title) Poor hash function - LinearProbing
+# (movie_title) Good hash function - LinearProbing
 # Wasted Space:  3691 slots
-# Collisions:  78340596
-# Time Taken: 0:00:06.578001
-# (quote) Poor hash function - LinearProbing
+# Collisions:  26230
+# Time Taken: 0:00:00.027501
+# (quote) Good hash function - LinearProbing
 # Wasted Space:  109 slots
-# Collisions:  111409320
-# Time Taken: 0:00:08.847002
+# Collisions:  772246
+# Time Taken: 0:00:00.816503
 
 
 
@@ -36,10 +36,14 @@ with open("MOCK_DATA.csv", newline="", encoding="utf-8") as file:
         movies.append(row)
 
 
-#poor hash function - returns a key of 0 no matter what making them all the same
+#good hash function - multiplies the total by 26 then adds the letters character code.
+#the 26 makes the total dependent on the characters position so there are less duplicates if 
+#two movie titles contain the same letters.
 def hash_function(key):
-    return 0
-
+    total = 0
+    for character in key:
+        total = total * 26 + ord(character)
+    return total
 
 
 class Node:
@@ -157,7 +161,7 @@ for column in ["movie_title", "quote"]:
     empty = table.count_empty()
     percent = round(empty / table_size *100, 1)
 
-    print(f"({column})","Poor hash function - LinearProbing")
+    print(f"({column})","Good hash function - LinearProbing")
     print("Wasted Space: ", empty, "slots")
     print("Collisions: ", table.collisions)
     print(f"Time Taken: {end-start}")
