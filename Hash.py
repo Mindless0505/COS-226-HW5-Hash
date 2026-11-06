@@ -5,6 +5,7 @@ import csv
 #opens the csv file and sorts all the movies in a dictionary 
 movies = []
 with open("MOCK_DATA.csv", newline="", encoding="utf-8") as file:
+    #automatically reads the header from the file and creates a dictionary for all the movies using the header categories
     reader = csv.DictReader(file)
     for row in reader:
         movies.append(row)
@@ -12,7 +13,7 @@ with open("MOCK_DATA.csv", newline="", encoding="utf-8") as file:
 
 #poor hash function
 def hash_function(key):
-    return len(key) * 256
+    return len(key) 
 
 
 
@@ -112,5 +113,7 @@ class LinearProbing:
         return empty
 
 
-    for row in movies
-        key = movies[column]
+for column in ["movie_title", "quote"]:
+    table_size = int(len(movies))
+
+    start = time.
