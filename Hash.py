@@ -1,6 +1,32 @@
+#COS 226 - Hash something out 
+#Christopher Noonan
+#11/6/26
+#
+#Approach: loads all movies from MOCK_DATA.csv and creates two hash tables for movie titles and movie quotes.
+#it then prints the empty slots in the table, the collisons while inserting into the table and the build time
+#for each table.
+#
+#Attempt 1: Poor hash function with a Linked List
+#Hash function: The hash function returns a value of 0 regardless of input.
+#This makes it so every single key is identical. Thus all the entries are in the same spot on the table
+#This should create a significant amount of collisons with a lot of wasted space
+#
+#Results:
+#(movie_title) Poor hash function - Linked List
+#Wasted Space:  14999 slots
+#Collisions:  78340596
+#Time Taken: 0:00:03.813998
+#
+#(quote) Poor hash function - Linked List
+#Wasted Space:  14999 slots
+#Collisions:  111409320
+#Time Taken: 0:00:04.938001
+
+
+
 import time
 import csv
-
+from datetime import datetime
 
 #opens the csv file and sorts all the movies in a dictionary 
 movies = []
@@ -11,9 +37,9 @@ with open("MOCK_DATA.csv", newline="", encoding="utf-8") as file:
         movies.append(row)
 
 
-#poor hash function
+#poor hash function - returns a key of 0 no matter what making them all the same
 def hash_function(key):
-    return len(key) 
+    return 0
 
 
 
@@ -65,8 +91,8 @@ class LinkedList:
     #function for counting empty space in the hash table
     def count_empty(self):
         empty = 0
-        for key in self.keys:
-            if key is None:
+        for slot in self.slots:
+            if slot is None:
                 empty = empty + 1
         return empty
         
@@ -116,4 +142,23 @@ class LinearProbing:
 for column in ["movie_title", "quote"]:
     table_size = int(len(movies))
 
-    start = time.
+    table = LinkedList(table_size) #create hash table
+
+    start = datetime.now()
+    for row in movies:
+        key = row[column]
+        if key is None: #if row is missing column
+            continue
+        key = key.strip() #cleans up key
+        if key == "": #skip empty key
+            continue
+        table.insert(key,row)
+    end = datetime.now()
+
+    empty = table.count_empty()
+    percent = round(empty / table_size *100, 1)
+
+    print(f"({column})","Poor hash function - Linked List")
+    print("Wasted Space: ", empty, "slots")
+    print("Collisions: ", table.collisions)
+    print(f"Time Taken: {end-start}")
