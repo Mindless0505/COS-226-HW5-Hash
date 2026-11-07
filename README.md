@@ -1,5 +1,5 @@
 The Poor Linear Probing hash table worked the worst of all. It had the worst time to build and had an incredibly large amount of collisions.
-However, It did utalize a lot of the space with minimal wasted space.
+However, It did utilize a lot of the space with minimal wasted space.
 
 The Poor Linked List was the second worst. It was about twice as fast as the linear probing, but it still had a ton of collisons and by far the 
 most amount of wasted space with almost the whole table being empty.
